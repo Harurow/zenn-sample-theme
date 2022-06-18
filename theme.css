@@ -1,0 +1,32 @@
+:root {
+  --header-height: 48px;
+
+  --header-shadow: rgb(0 0 0 / 20%) 0px 2px 4px -1px,
+                   rgb(0 0 0 / 14%) 0px 4px 5px 0px,
+                   rgb(0 0 0 / 12%) 0px 1px 10px 0px;
+
+  --ripple: white;
+}
+
+:root,
+:root[theme="light"] {
+  --header-background: #4682b4;
+  --header-color: #f5f5f5;
+  --main-background: #f5f5f5;
+  --main-color: #222222;
+
+  --p-color: #4682b4;
+  --p-highlight: #86afd0;
+  --p-text: #f5f5f5;
+}
+
+:root[theme="dark"] {
+  --header-background: #444444;
+  --header-color: #dddddd;
+  --main-background: #333333;
+  --main-color: #dddddd;
+
+  --p-color: #274863;
+  --p-highlight: #437dad;
+  --p-text: #f5f5f5;
+}

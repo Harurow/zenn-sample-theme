@@ -6,12 +6,11 @@ const ThemeMode = {
 
 let themMode = ThemeMode.Auto
 
-function getBrowserTheme (mediaQueryList) {
-  return mediaQueryList.matches ? 'dark' : 'light'
-}
+const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)')
+mediaQueryList.addEventListener('change', updateTheme)
 
-function setTheme (mediaQueryList) {
-  const theme = themMode ?? getBrowserTheme(mediaQueryList)
+function updateTheme () {
+  const theme = themMode ?? getBrowserTheme()
   const htmlElement = document.body.parentElement
   htmlElement.setAttribute('theme', theme)
 
@@ -21,32 +20,34 @@ function setTheme (mediaQueryList) {
   clearCustomColorPallet()
 }
 
+function getBrowserTheme () {
+  return mediaQueryList.matches ? 'dark' : 'light'
+}
+
 function clearCustomColorPallet() {
   const bodyStyle = document.body.style
   bodyStyle.removeProperty('--p-color')
   bodyStyle.removeProperty('--p-highlight')
 }
 
-const mql = window.matchMedia('(prefers-color-scheme: dark)')
-mql.addEventListener('change', setTheme)
-setTheme(mql)
+updateTheme()
 
 $(() => {
   initRipples()
 
   $('.theme-auto').on('click', () => {
     themMode = ThemeMode.Auto
-    setTheme(mql)
+    updateTheme()
   })
 
   $('.theme-light').on('click', () => {
     themMode = ThemeMode.Light
-    setTheme(mql)
+    updateTheme()
   })
   
   $('.theme-dark').on('click', () => {
     themMode = ThemeMode.Dark
-    setTheme(mql)
+    updateTheme()
   })
 
   $('#primary-color').on('change', () => {
@@ -54,7 +55,6 @@ $(() => {
     const computedStyle = getComputedStyle(body)
     const themeRgb = computedStyle.getPropertyValue('--p-color').trim()
     const pickerRgb = $('#primary-color').val()
-    console.log(pickerRgb)
 
     if (themeRgb !== pickerRgb) {
       const r = Number.parseInt(pickerRgb.substring(1, 3), 16)
@@ -71,7 +71,6 @@ $(() => {
 })
 
 const rgba2hsla = ({ r, g, b, a }) => {
-  console.log(r, g, b)
   const max = Math.max(r, g, b)
   const min = Math.min(r, g, b)
   const hsla = {
